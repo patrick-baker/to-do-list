@@ -5,11 +5,9 @@ const router = express.Router();
 const pool = require ('../modules/pool.js');
 
 // GET
-koalaRouter.get('/', (req, res) => {
+router.get('/', (req, res) => {
     console.log('in GET route');
-
-    const query = 'SELECT * FROM koalas ORDER BY "id";';
-
+    const query = 'SELECT * FROM "tasks" ORDER BY "id";';
     pool.query(query).then((results) => {
         console.log(results);
         res.send(results.rows);
@@ -21,14 +19,13 @@ koalaRouter.get('/', (req, res) => {
 
 
 // POST
-koalaRouter.post('/', (req, res) => {
+router.post('/', (req, res) => {
     console.log('in POST route');
+    const query = `INSERT INTO "tasks" ("task-name", "priority", "status", "notes")
+	VALUES($1, $2, $3, $4);`;
 
-    const query = `INSERT INTO "koalas" ("name", "gender", "age", "readyForTransfer", "notes")
-	VALUES($1, $2, $3, $4, $5);`;
-
-    pool.query(query, [req.body.name, req.body.gender, req.body.age, req.body.transfer, req.body.notes])
-    .then((results) => {
+    pool.query(query, [req.body.taskName, req.body.priority, req.body.status, req.body.notes])
+    .then(() => {
         res.sendStatus(200);
     }).catch((error) => {
         console.log('Error making insert query', error);
@@ -37,26 +34,25 @@ koalaRouter.post('/', (req, res) => {
 }); // END POST ROUTE
 
 // PUT
-koalaRouter.put('/:id', (req, res) => {
+/*router.put('/:id', (req, res) => {
     console.log('in Put route');
-    const query = `UPDATE "koalas" SET "readyForTransfer" = true
+    const query = `UPDATE "tasks" SET "readyForTransfer" = true
     WHERE "id" = $1;`;
-    pool.query(query, [req.params.id]).then(() => {
+    pool.query(query, [req.params.id])
+    .then(() => {
         res.sendStatus(200);
     }).catch((error) => {
         console.log(`Error in Put query`, error);
         res.sendStatus(500);
     });
-}); // END PUT ROUTE
+});*/ // END PUT ROUTE
 
 
 // DELETE
-koalaRouter.delete('/:id', (req, res) => {
-    console.log('koalas delete was hit');
-
-    const query = `DELETE FROM "koalas"
+router.delete('/:id', (req, res) => {
+    console.log('tasks delete was hit');
+    const query = `DELETE FROM "tasks"
     WHERE "id" = $1;`;
-
     pool.query(query, [req.params.id])
         .then(() => {
             res.sendStatus(200);
@@ -67,5 +63,4 @@ koalaRouter.delete('/:id', (req, res) => {
 }); // END DELETE ROUTE
 
 
-
-module.exports = koalaRouter;
+module.exports = router;

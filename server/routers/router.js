@@ -21,10 +21,10 @@ router.get('/', (req, res) => {
 // POST
 router.post('/', (req, res) => {
     console.log('in POST route');
-    const query = `INSERT INTO "tasks" ("task-name", "priority", "status", "notes")
-	VALUES($1, $2, $3, $4);`;
+    const query = `INSERT INTO "tasks" ("task-name", "priority", "notes")
+	VALUES($1, $2, $3);`;
 
-    pool.query(query, [req.body.taskName, req.body.priority, req.body.status, req.body.notes])
+    pool.query(query, [req.body.taskName, req.body.priority, req.body.notes])
     .then(() => {
         res.sendStatus(200);
     }).catch((error) => {

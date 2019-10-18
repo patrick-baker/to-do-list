@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="scripts/script.js"></script>
     <script src="scripts/jquery.js"></script>
+    <script src="scripts/client.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>Patricks To Do</title>
 </head>
@@ -13,12 +13,13 @@
     <h1>Patrick's Tier2 Week3 To Do App</h1>
     <form action="">
         <input type="text" id="taskName">
-        <select id="priorityList">
+        <select id="addPriority">
             <option value = "High">High</option>
             <option value = "Medium">Medium</option>
             <option value = "Low">Low</option>
         </select>
         <input type="text" id="notes">
+        <button type="submit" id="submitNewTask">SUBMIT</button>
     </form>
     <table>
         <thead>

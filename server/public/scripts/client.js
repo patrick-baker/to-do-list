@@ -102,14 +102,31 @@ function handleNewTask(e) {
 // on delete button click, removes that task from database and GETs contents to append to DOM
 function handleDeleteTask() {
     let id = $(this).parent().parent().data().id;
-    $.ajax({
-        method: 'DELETE',
-        url: `tasks/${id}`
-    }).then(function () {
-        getTasks();
-    }).catch(function (error) {
-        console.log('Error in Client-side Delete Request', error);
-    });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+            $.ajax({
+                method: 'DELETE',
+                url: `tasks/${id}`
+            }).then(function () {
+                getTasks();
+            }).catch(function (error) {
+                console.log('Error in Client-side Delete Request', error);
+            });
+        }
+    })
 }
 
 // on update button click, alters that item's priority and status in database , then GETs table contents and appends to DOM

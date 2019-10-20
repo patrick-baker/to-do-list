@@ -2,7 +2,7 @@ $(document).ready(onReady);
 
 function onReady() {
     console.log("working Jquery");
-    updateTable();
+    getTasks();
     applyEventListeners();
 }
 
@@ -10,7 +10,7 @@ function applyEventListeners() {
     $("#submitNewTask").on('click', handleNewTask);
 }
 
-function updateTable() {
+function getTasks() {
     $.ajax({
         method: 'GET',
         url: '/tasks'
@@ -22,6 +22,7 @@ function updateTable() {
 }
 
 function appendTasks(array) {
+    $("#listTableBody").empty();
     for (task of array) {
         console.log(task.taskName);
         $('#listTableBody').append(`
@@ -52,6 +53,21 @@ function appendTasks(array) {
 
 function handleNewTask(e) {
     e.preventDefault();
-
+    $.ajax({
+        method: 'POST',
+        url:'/tasks',
+        data: {
+            taskName: $("#taskName").val(),
+            priority: $("#addPriority").val(),
+            notes: $("#notes").val()
+        }
+    }).then(function() {
+        getTasks();
+        $("#taskName").val("");
+        $("#addPriority").val("");
+        $("#notes").val("");
+    }).catch(function(error) {
+        console.log('Error in client-side POST', error);
+    });
 }
 

@@ -1,15 +1,20 @@
 $(document).ready(onReady);
 
+// on page load, makes GET request for tasks table in database and applies event listeners
 function onReady() {
     console.log("working Jquery");
     getTasks();
     applyEventListeners();
 }
 
+// adds ajax requests as event listeners on submit button and delete and update buttons in table tasks
 function applyEventListeners() {
     $("#submitNewTask").on('click', handleNewTask);
+    $('#listTableBody').on('click', '.deleteButton', handleDeleteTask);
+    $('#listTableBody').on('click', '.updateButton', handleUpdateTask);
 }
 
+// GETs tasks table row contents from database
 function getTasks() {
     $.ajax({
         method: 'GET',
@@ -21,53 +26,105 @@ function getTasks() {
     });
 }
 
+// appends rows to array
 function appendTasks(array) {
     $("#listTableBody").empty();
     for (task of array) {
         console.log(task.taskName);
-        $('#listTableBody').append(`
+        // if task is completed, adds completedTask class and removes update button functionality
+        if (task.status === "Completed") {
+            $('#listTableBody').append(`
+            <tr data-id="${task.id}">
+                <td>${task.taskName}</td>
+                <td>${task.priority}</td>
+                <td>${task.status}</td>
+                <td>${task.notes}</td>
+                <td><button class="deleteButton">Delete</button></td>
+                <td><button class="archiveButton">Archive</button></td>
+            </tr>
+            `)
+            $("#listTableBody").children().last().addClass("completedTask");
+        }
+        else {
+            $('#listTableBody').append(`
             <tr data-id="${task.id}">
                 <td>${task.taskName}</td>
                 <td>
                     <select class="selectPriority">
-                        <option value="" disabled selected hidden>${task.priority}</option>
+                        <option value="${task.priority}" disabled selected hidden>${task.priority}</option>
                         <option value = "High">High</option>
                         <option value = "Medium">Medium</option>
                         <option value = "Low">Low</option>
                     </select>
                 </td>
                 <td>
-                    <select class="selectPriority">
-                        <option value="" disabled selected hidden>${task.status}</option>
-                        <option value = "notStarted">Not Started</option>
-                        <option value = "inProgress">In Progress</option>
-                        <option value = "completed">Completed</option>
+                    <select class="selectStatus">
+                        <option value="${task.status}" disabled selected hidden>${task.status}</option>
+                        <option value = "Not Started">Not Started</option>
+                        <option value = "In Progress">In Progress</option>
+                        <option value = "Completed">Completed</option>
                     </select>
                 </td>
                 <td>${task.notes}</td>
-                <td><button class="delete">Delete</button></td>
+                <td><button class="deleteButton">Delete</button></td>
+                <td><button class="updateButton">Update</button></td>
             </tr>
-        `)
+            `)
+        }
     }
 }
 
+// on Submit button click, adds new task to database, then GETs contents to append to DOM
 function handleNewTask(e) {
     e.preventDefault();
     $.ajax({
         method: 'POST',
-        url:'/tasks',
+        url: '/tasks',
         data: {
             taskName: $("#taskName").val(),
             priority: $("#addPriority").val(),
             notes: $("#notes").val()
         }
-    }).then(function() {
+    }).then(function () {
         getTasks();
         $("#taskName").val("");
         $("#addPriority").val("");
         $("#notes").val("");
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log('Error in client-side POST', error);
     });
 }
 
+// on delete button click, removes that task from database and GETs contents to append to DOM
+function handleDeleteTask() {
+    let id = $(this).parent().parent().data().id;
+    $.ajax({
+        method: 'DELETE',
+        url: `tasks/${id}`
+    }).then(function () {
+        getTasks();
+    }).catch(function (error) {
+        console.log('Error in Client-side Delete Request', error);
+    });
+}
+
+// on update button click, alters that item's priority and status in database , then GETs table contents and appends to DOM
+function handleUpdateTask() {
+    let id = $(this).parent().parent().data().id;
+    let status = $(this).parent().parent().find(".selectStatus").children("option:selected").val();
+    let priority = $(this).parent().parent().find(".selectPriority").children("option:selected").val();
+    console.log(status);
+    console.log(priority);
+    $.ajax({
+        method: 'PUT',
+        url: `tasks/${id}`,
+        data: {
+            status: status,
+            priority: priority
+        }
+    }).then(function () {
+        getTasks();
+    }).catch(function (error) {
+        console.log('There is an error in client-side PUT request', error)
+    });
+}

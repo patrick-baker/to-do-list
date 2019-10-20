@@ -34,18 +34,20 @@ router.post('/', (req, res) => {
 }); // END POST ROUTE
 
 // PUT
-/*router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     console.log('in Put route');
-    const query = `UPDATE "tasks" SET "readyForTransfer" = true
-    WHERE "id" = $1;`;
-    pool.query(query, [req.params.id])
+    const query = `UPDATE "tasks" 
+    SET "priority" = $1,
+    "status" = $2
+    WHERE "id" = $3;`;
+    pool.query(query, [req.body.priority, req.body.status, req.params.id])
     .then(() => {
         res.sendStatus(200);
     }).catch((error) => {
         console.log(`Error in Put query`, error);
         res.sendStatus(500);
     });
-});*/ // END PUT ROUTE
+}); // END PUT ROUTE
 
 
 // DELETE

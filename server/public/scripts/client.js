@@ -29,18 +29,20 @@ function getTasks() {
 // appends rows to array
 function appendTasks(array) {
     $("#listTableBody").empty();
+    let rowCount = 1;
     for (task of array) {
         console.log(task.taskName);
         // if task is completed, adds completedTask class and removes update button functionality
         if (task.status === "Completed") {
             $('#listTableBody').append(`
             <tr data-id="${task.id}">
+                <th scope="row">${rowCount}</th>
                 <td>${task.taskName}</td>
                 <td>${task.priority}</td>
                 <td>${task.status}</td>
                 <td>${task.notes}</td>
-                <td><button class="deleteButton">Delete</button></td>
-                <td><button class="archiveButton">Archive</button></td>
+                <td><button class="deleteButton btn btn-danger btn-sm">Delete</button></td>
+                <td><button class="archiveButton btn btn-outline-success btn-sm">Archive</button></td>
             </tr>
             `)
             $("#listTableBody").children().last().addClass("completedTask");
@@ -48,6 +50,7 @@ function appendTasks(array) {
         else {
             $('#listTableBody').append(`
             <tr data-id="${task.id}">
+                <th scope="row">${rowCount}</th>
                 <td>${task.taskName}</td>
                 <td>
                     <select class="selectPriority">
@@ -66,11 +69,12 @@ function appendTasks(array) {
                     </select>
                 </td>
                 <td>${task.notes}</td>
-                <td><button class="deleteButton">Delete</button></td>
-                <td><button class="updateButton">Update</button></td>
+                <td><button class="deleteButton btn btn-danger btn-sm">Delete</button></td>
+                <td><button class="updateButton btn btn-outline-primary btn-sm">Update</button></td>
             </tr>
             `)
         }
+        rowCount++;
     }
 }
 

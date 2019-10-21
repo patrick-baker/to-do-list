@@ -1,6 +1,6 @@
 CREATE TABLE "tasks" (
     "id" SERIAL PRIMARY KEY,
-    "task-name" VARCHAR (80),
+    "taskName" VARCHAR (80),
     "priority" VARCHAR (20),
     "status" VARCHAR (15) DEFAULT 'Not Started',
     "notes" VARCHAR (250)

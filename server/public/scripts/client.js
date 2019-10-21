@@ -79,8 +79,10 @@ function appendTasks(array) {
 }
 
 // on Submit button click, adds new task to database, then GETs contents to append to DOM
-function handleNewTask(e) {
-    e.preventDefault();
+function handleNewTask() {
+    if(!$("#taskName").val() || !$("#addPriority").val()) {
+        return alert("Please add task name and priority");
+    }
     $.ajax({
         method: 'POST',
         url: '/tasks',

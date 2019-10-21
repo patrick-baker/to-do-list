@@ -8,6 +8,8 @@ The tasks table is then retrieved through an AJAX GET request and shown on a tab
 
 Users can update the Priority and Status of each task by choosing the correct value in the dropdown of the chosen item on the table and clicking its Update button. 
 
+You can find the deployed version of this app [here](https://my-sql-to-do-app.herokuapp.com/)
+
 ## Usage
 
 1. Enter Task Name, Priority, and Notes in the form field and press Submit.

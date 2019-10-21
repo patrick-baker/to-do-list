@@ -48,6 +48,6 @@ If you have any questions, feel free to email me at bakerpj1992@gmail.com
 
 1. Continue Styling page, get header to center above table
 2. Add more styling to .completedTasks
-3. Add verification to the input boxes, and require choice of priority dropdown to prevent faulty input.
+3. [x] Add verification to the input boxes, and require choice of priority dropdown to prevent faulty input.
 4. Sort by each column in table by clicking on respective header.
 5. Archive completed tasks to seperate table upon archive button press

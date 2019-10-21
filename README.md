@@ -1,4 +1,4 @@
-# jQuery Server Side Calculator
+# SQL To-Do-List
 ## Description
 _Duration: Weekend Sprint_
 

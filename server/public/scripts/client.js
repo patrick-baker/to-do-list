@@ -81,7 +81,12 @@ function appendTasks(array) {
 // on Submit button click, adds new task to database, then GETs contents to append to DOM
 function handleNewTask() {
     if(!$("#taskName").val() || !$("#addPriority").val()) {
-        return alert("Please add task name and priority");
+        return Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: 'Please enter task name and priority.'
+          })
     }
     $.ajax({
         method: 'POST',

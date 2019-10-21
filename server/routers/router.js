@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
     console.log('in GET route');
     const query = 'SELECT * FROM "tasks" ORDER BY "id";';
     pool.query(query).then((results) => {
+        console.log(req.query);
         console.log(results);
         res.send(results.rows);
     }).catch((error) => {

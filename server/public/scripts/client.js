@@ -74,12 +74,14 @@ function appendTasks(array) {
             </tr>
             `)
         }
+        // increments the number in the # column
         rowCount++;
     }
 }
 
 // on Submit button click, adds new task to database, then GETs contents to append to DOM
 function handleNewTask() {
+    // requires taskName and Notes inputs to have values
     if(!$("#taskName").val() || !$("#addPriority").val()) {
         return Swal.fire({
             type: 'error',
@@ -88,6 +90,7 @@ function handleNewTask() {
             footer: 'Please enter task name and priority.'
           })
     }
+    // posts new task to database with input values
     $.ajax({
         method: 'POST',
         url: '/tasks',
@@ -96,6 +99,7 @@ function handleNewTask() {
             priority: $("#addPriority").val(),
             notes: $("#notes").val()
         }
+        // updates the task list and empties input fields
     }).then(function () {
         getTasks();
         $("#taskName").val("");
@@ -109,6 +113,7 @@ function handleNewTask() {
 // on delete button click, removes that task from database and GETs contents to append to DOM
 function handleDeleteTask() {
     let id = $(this).parent().parent().data().id;
+    // sweet alerts modal for confirming delete
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -136,13 +141,16 @@ function handleDeleteTask() {
     })
 }
 
-// on update button click, alters that item's priority and status in database , then GETs table contents and appends to DOM
+// on update button click, alters that item's priority and status in database , then updates table contents on DOM
 function handleUpdateTask() {
+    // grabs id from table row
     let id = $(this).parent().parent().data().id;
+    // grabs selected status from status dropdown
     let status = $(this).parent().parent().find(".selectStatus").children("option:selected").val();
+    // grabs selected priority from priority dropdown
     let priority = $(this).parent().parent().find(".selectPriority").children("option:selected").val();
-    console.log(status);
-    console.log(priority);
+    console.log(`status to update item ${id} to:`, status);
+    console.log(`priority to update item ${id} to:`, priority);
     $.ajax({
         method: 'PUT',
         url: `tasks/${id}`,
@@ -151,6 +159,7 @@ function handleUpdateTask() {
             priority: priority
         }
     }).then(function () {
+        // updates table
         getTasks();
     }).catch(function (error) {
         console.log('There is an error in client-side PUT request', error)

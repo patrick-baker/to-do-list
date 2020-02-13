@@ -2,10 +2,10 @@
   "name": "weekend-sql-to-do-list",
   "version": "1.0.0",
   "description": "Week3 To-Do-List",
-  "main": "index.js",
+  "main": "client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server.js"
+    "start": "nodemon  --watch server server/server.js"
   },
   "repository": {
     "type": "git",

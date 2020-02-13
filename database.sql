@@ -3,7 +3,8 @@ CREATE TABLE "tasks" (
     "taskName" VARCHAR (80) NOT NULL,
     "priority" VARCHAR (20) NOT NULL,
     "status" VARCHAR (15) DEFAULT 'Not Started',
-    "notes" VARCHAR (250)
+    "notes" VARCHAR (250),
+    "archive_date" DATE
 );
 
 INSERT INTO "tasks" ("taskName", "priority", "status", "notes")

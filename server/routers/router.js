@@ -50,6 +50,21 @@ router.put('/:id', (req, res) => {
     });
 }); // END PUT ROUTE
 
+// PUT
+router.put('/archive/:id', (req, res) => {
+    console.log('in archive Put route');
+    const query = `UPDATE "tasks" 
+    SET "status" = 'Archived'
+    WHERE "id" = $1;`;
+    pool.query(query, [req.params.id])
+    .then(() => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log(`Error in Put query`, error);
+        res.sendStatus(500);
+    });
+}); // END PUT ROUTE
+
 
 // DELETE
 router.delete('/:id', (req, res) => {

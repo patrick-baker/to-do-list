@@ -4,6 +4,11 @@ body {
     background: #Fafafa;
 }
 
+hr {
+    width: 40%;
+    color: black;
+}
+
 /**** Header ****/
 #header {
     text-align: center;
@@ -34,6 +39,15 @@ body {
     bottom: 0px;
     color: white;
 }
+
+/**** Form ****/
+
+#form-content {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
 
 .completedTask {
     color: #305A30;

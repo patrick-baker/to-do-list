@@ -7,11 +7,13 @@ function onReady() {
     applyEventListeners();
 }
 
-// adds ajax requests as event listeners on submit button and delete and update buttons in table tasks
+// adds ajax requests as event listeners on submit button and delete, archive and update buttons in table tasks
 function applyEventListeners() {
     $("#submitNewTask").on('click', handleNewTask);
     $('#listTableBody').on('click', '.deleteButton', handleDeleteTask);
+    $('#archivedTableBody').on('click', '.deleteButton', handleDeleteTask);
     $('#listTableBody').on('click', '.updateButton', handleUpdateTask);
+    $('#listTableBody').on('click', '.archiveButton', handleArchiveTask);
 }
 
 // GETs tasks table row contents from database
@@ -28,15 +30,18 @@ function getTasks() {
 
 // appends rows to array
 function appendTasks(array) {
+    // empties previous table contents before update
     $("#listTableBody").empty();
-    let rowCount = 1;
+    $("#archivedTableBody").empty();
+    // incrementers for table row numbers
+    let taskRowCount = 1;
+    let archivedRowCount = 1;
     for (task of array) {
-        console.log(task.taskName);
         // if task is completed, adds completedTask class and removes update button functionality
         if (task.status === "Completed") {
             $('#listTableBody').append(`
             <tr data-id="${task.id}">
-                <th scope="row">${rowCount}</th>
+                <th scope="row">${taskRowCount}</th>
                 <td>${task.taskName}</td>
                 <td>${task.priority}</td>
                 <td>${task.status}</td>
@@ -46,11 +51,24 @@ function appendTasks(array) {
             </tr>
             `)
             $("#listTableBody").children().last().addClass("completedTask");
-        }
-        else {
+            taskRowCount ++;
+            // if task is archived, adds to archived tasks table
+        } else if (task.status === "Archived") { 
+            $('#archivedTableBody').append(`
+            <tr data-id="${task.id}">
+                <th scope="row">${archivedRowCount}</th>
+                <td>${task.taskName}</td>
+                <td>${task.priority}</td>
+                <td>${task.notes}</td>
+                <td><button class="deleteButton btn btn-danger btn-sm">Delete</button></td>
+            </tr>
+            `)
+            archivedRowCount ++;
+            // if task is neither archived nor completed, adds task to task table with update and delete buttons
+        } else {
             $('#listTableBody').append(`
             <tr data-id="${task.id}">
-                <th scope="row">${rowCount}</th>
+                <th scope="row">${taskRowCount}</th>
                 <td>${task.taskName}</td>
                 <td>
                     <select class="selectPriority">
@@ -73,9 +91,8 @@ function appendTasks(array) {
                 <td><button class="updateButton btn btn-outline-primary btn-sm">Update</button></td>
             </tr>
             `)
+            taskRowCount++;
         }
-        // increments the number in the # column
-        rowCount++;
     }
 }
 
@@ -113,7 +130,8 @@ function handleNewTask() {
 // on delete button click, removes that task from database and GETs contents to append to DOM
 function handleDeleteTask() {
     let id = $(this).parent().parent().data().id;
-    // sweet alerts modal for confirming delete
+    console.log("Delete activated");
+    // sweet alerts modal for choosing to confirm delete
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -122,6 +140,7 @@ function handleDeleteTask() {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
+        // modal for displaying deletiong success
     }).then((result) => {
         if (result.value) {
             Swal.fire(
@@ -129,6 +148,7 @@ function handleDeleteTask() {
                 'Your file has been deleted.',
                 'success'
             )
+            // deletes task from database
             $.ajax({
                 method: 'DELETE',
                 url: `tasks/${id}`
@@ -160,6 +180,23 @@ function handleUpdateTask() {
         }
     }).then(function () {
         // updates table
+        getTasks();
+    }).catch(function (error) {
+        console.log('There is an error in client-side PUT request', error)
+    });
+}
+
+// on archive button click, changes Status in database to Archived , then updates table contents on DOM
+function handleArchiveTask() {
+    // grabs id from table row
+    let id = $(this).parent().parent().data().id;
+    console.log(`status to update item ${id} to: "Archived"`);
+    // updates status of task to "Archived".
+    $.ajax({
+        method: 'PUT',
+        url: `tasks/archive/${id}`,
+    }).then(function () {
+        // updates tables
         getTasks();
     }).catch(function (error) {
         console.log('There is an error in client-side PUT request', error)

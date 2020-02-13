@@ -10,6 +10,8 @@ function onReady() {
 // adds ajax requests as event listeners on submit button and delete, archive and update buttons in table tasks
 function applyEventListeners() {
     $("#submitNewTask").on('click', handleNewTask);
+    $("#setActiveTasks").on('click', changeMode);
+    $("#setArchivedTasks").on('click', changeMode);
     $('#listTableBody').on('click', '.deleteButton', handleDeleteTask);
     $('#archivedTableBody').on('click', '.deleteButton', handleDeleteTask);
     $('#listTableBody').on('click', '.updateButton', handleUpdateTask);
@@ -93,6 +95,16 @@ function appendTasks(array) {
             `)
             taskRowCount++;
         }
+    }
+}
+
+function changeMode() {
+    if ($(this).text() === "Active") {
+        $("#active-tasks").removeClass("hidden");
+        $('#archived-tasks').addClass("hidden");
+    } else if ($(this).text() === "Archive") {
+        $("#archived-tasks").removeClass("hidden");
+        $('#active-tasks').addClass("hidden");
     }
 }
 

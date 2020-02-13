@@ -1,12 +1,22 @@
 body {
     --c : rgba(250,254,254,0.7);
     --t : transparent;
-    background: #Fafafa;
+    background: #Fcfcfc;
 }
 
 hr {
     width: 40%;
     color: black;
+}
+
+/* removes element from the DOM */
+.hidden {
+    display: none;
+}
+
+/* cursor is a pointer on hover */
+.changeMode {
+    cursor: pointer;
 }
 
 /**** Header ****/
@@ -56,4 +66,10 @@ hr {
 
 label {
     margin: 0px 5px 0px 5px;
+}
+
+/**** Tables ****/
+#archived-tasks, #active-tasks {
+    text-align: center;
+    margin-top: 50px;
 }

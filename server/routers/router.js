@@ -54,7 +54,8 @@ router.put('/:id', (req, res) => {
 router.put('/archive/:id', (req, res) => {
     console.log('in archive Put route');
     const query = `UPDATE "tasks" 
-    SET "status" = 'Archived'
+    SET "status" = 'Archived',
+    "archive_date" = CURRENT_DATE
     WHERE "id" = $1;`;
     pool.query(query, [req.params.id])
     .then(() => {

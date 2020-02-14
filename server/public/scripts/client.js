@@ -62,6 +62,7 @@ function appendTasks(array) {
                 <td>${task.taskName}</td>
                 <td>${task.priority}</td>
                 <td>${task.notes}</td>
+                <td>${task.archive_date.substring(0,10)}</td>
                 <td><button class="deleteButton btn btn-danger btn-sm">Delete</button></td>
             </tr>
             `)

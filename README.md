@@ -57,8 +57,8 @@ If you have any questions, feel free to email me at bakerpj1992@gmail.com
 
 ## Where I want to go from here
 
-1. Continue Styling page, get header to center above table
-2. Add more styling to .completedTasks
+1. [x] Continue Styling page, get header to center above table
+2. [x] Add more styling to .completedTasks
 3. [x] Add verification to the input boxes, and require choice of priority dropdown to prevent faulty input.
 4. Sort by each column in table by clicking on respective header.
-5. Archive completed tasks to seperate table upon archive button press
+5. [x]  Archive completed tasks to seperate table upon archive button press

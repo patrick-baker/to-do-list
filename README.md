@@ -12,7 +12,7 @@ Users can update the Priority and Status of each task by choosing the correct va
 
 You can find the deployed version of this app [here](https://my-sql-to-do-app.herokuapp.com/)
 
-## Schreenshots
+## Screenshots
 ![](images/Active-tasks.png)
 ![](images/Archived-tasks.png)
 

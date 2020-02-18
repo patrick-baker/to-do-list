@@ -18,8 +18,6 @@ You can find the deployed version of this app [here](https://my-sql-to-do-app.he
 
 ### Prerequisites
 
-Link to software that is required to install the app (e.g. node).
-
 - [Node.js](https://nodejs.org/en/)
 - [PostgreSQL](https://www.postgresql.org/download/)
 - Suggested to install [Postico](https://eggerapps.at/postico/) or a PostgreSQL GUI of your choosing.
